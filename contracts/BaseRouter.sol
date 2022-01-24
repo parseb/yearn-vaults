@@ -66,7 +66,7 @@ abstract contract BaseRouter {
 
     /**
      * @notice
-     *  Used to get the most revent vault for the token using the registry.
+     *  Used to get the most recent vault for the token using the registry.
      * @return An instance of a VaultAPI
      */
     function bestVault(address token) public view virtual returns (VaultAPI) {
@@ -220,10 +220,7 @@ abstract contract BaseRouter {
 
                 if (amount != WITHDRAW_EVERYTHING) {
                     // Compute amount to withdraw fully to satisfy the request
-                    uint256 estimatedShares = amount
-                    .sub(withdrawn) // NOTE: Changes every iteration
-                    .mul(10**uint256(vaults[id].decimals()))
-                    .div(vaults[id].pricePerShare()); // NOTE: Every Vault is different
+                    uint256 estimatedShares = amount.sub(withdrawn).mul(10**uint256(vaults[id].decimals())).div(vaults[id].pricePerShare()); // NOTE: Changes every iteration // NOTE: Every Vault is different
 
                     // Limit amount to withdraw to the maximum made available to this contract
                     // NOTE: Avoid corner case where `estimatedShares` isn't precise enough
